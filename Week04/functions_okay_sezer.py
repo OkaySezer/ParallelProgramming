@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 custom_power = lambda x=0, / , e=1: x ** e #custom_power is a lambda function that takes two parameters: x and e. x is the base and e is the exponent. The function returns x raised to the power of e. The default value for x is 0 and the default value for e is 1. The / symbol indicates that x is a positional-only parameter, meaning it cannot be passed as a keyword argument.
 
 def custom_equation(x:int = 0, y:int = 0 , / , a:int = 1 , b:int = 1 , * , c:int = 1 ) -> float:
