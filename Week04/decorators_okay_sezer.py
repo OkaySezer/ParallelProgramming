@@ -1,9 +1,9 @@
 import time 
 import tracemalloc
 
-def perdormance(func):
+def performance(func):
     
-    def wrapper(*args, **kwargs)
+    def wrapper(*args, **kwargs):
         wrapper.counter += 1
 
         start_time = time.perf_counter()
