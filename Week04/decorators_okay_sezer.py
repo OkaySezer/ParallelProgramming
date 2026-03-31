@@ -1,23 +1,43 @@
-import time 
+import time
 import tracemalloc
+from functools import wraps
 
 def performance(func):
+    """
+      A decorator that measures and tracks the performance of decorated functions.
     
+    Attributes:
+        counter (int): The number of times the decorated function has been called.
+        total_time (float): The cumulative execution time (in seconds) of all calls.
+        total_mem (int): The cumulative memory usage (in bytes) of all calls.
+
+    Args:
+        func (callable): The function to be decorated.
+
+    Returns:
+        callable: A wrapper function that executes the original function while tracking performance metrics
+     """
+
+    @wraps(func)
     def wrapper(*args, **kwargs):
-        wrapper.counter += 1
-
-        start_time = time.perf_counter()
         tracemalloc.start()
-
+        
+        start_time = time.perf_counter()
         result = func(*args, **kwargs)
-
+        end_time = time.perf_counter()
+        
         current, peak = tracemalloc.get_traced_memory()
         tracemalloc.stop()
-
-        end_time = time.perf_counter()
-
-        wrapper.total_time += (end_time - start_time)
-
-        print(f"Call #{wrapper.counter}: {func.__name__} took {end_time - start_time:.6f}s, "
-            f"Current memory: {current / 10**6:.6f}MB, Peak memory: {peak / 10**6:.6f}MB")
+        
+        performance.counter += 1
+        performance.total_time += (end_time - start_time)
+        performance.total_mem += current
+        
         return result
+    
+    return wrapper
+
+
+performance.counter = 0
+performance.total_time = 0.0
+performance.total_mem = 0
